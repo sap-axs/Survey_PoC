@@ -1,0 +1,72 @@
+<mvc:View controllerName="QuickStartApplication.controller.View1" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m">
+	<App id="idAppControl">
+		<pages>
+			<Page title="SAP Marketing Cloud trial user feedback">
+				<content>
+					<Panel backgroundDesign="Transparent">
+						<Text text="Thank you for taking time to provide us with your feedback. We will use this information to improve the trial experience."></Text>
+					</Panel>
+					<Panel>
+						<headerToolbar>
+							<Toolbar height="3rem">
+								<Title text="Which of the following best describes you?"/>
+							</Toolbar>
+						</headerToolbar>
+						<content>
+							<VBox>
+								<CheckBox text="Experienced in SAP Sales" selected="{q0>/A1}"/>
+								<CheckBox text="Experienced in SAP Service" selected="{q0>/A2}"/>
+								<CheckBox text="Experienced in SAP Commerce" selected="{q0>/A3}"/>
+								<CheckBox text="Experienced in SAP Customer Data" selected="{q0>/A4}"/>
+							</VBox>
+						</content>
+					</Panel>
+					<Panel>
+						<headerToolbar>
+							<Toolbar height="3rem">
+								<Title text="Did you enjoy your trial experience ?"/>
+							</Toolbar>
+						</headerToolbar>
+						<content>
+							<VBox class="sapUiSmallMargin">
+								<RadioButton groupName="GroupA" text="Yes" selected="{q1>/Response}"/>
+								<RadioButton groupName="GroupA" text="No" selected="{= !${q1>/Response}}"/>
+							</VBox>
+						</content>
+					</Panel>
+					<Panel>
+						<headerToolbar>
+							<Toolbar height="3rem">
+								<Title text="What did you find most beneficial about the trial ?"/>
+							</Toolbar>
+						</headerToolbar>
+						<content>
+							<TextArea placeholder="Enter Text" growing="true" growingMaxLines="7" width="100%"
+								value="{sm>/SurveyResponseSurveyResponseDetailSet/0/ResponseText}"/>
+						</content>
+					</Panel>
+					<Panel>
+						<headerToolbar>
+							<Toolbar height="3rem">
+								<Title text="What features would you like to see in the next trial release ?"/>
+							</Toolbar>
+						</headerToolbar>
+						<content>
+							<TextArea placeholder="Enter Text" growing="true" growingMaxLines="7" width="100%"
+								value="{sm>/SurveyResponseSurveyResponseDetailSet/1/ResponseText}"/>
+						</content>
+					</Panel>
+				</content>
+				<footer>
+					<Toolbar>
+						<ToolbarSpacer></ToolbarSpacer>
+						<Label text="Test EMail" labelFor="E1"></Label>
+						<Input id="E1" value="{userapi>/email}" width="30%"></Input>
+						<Button type="Accept" text="Send" press="sendSurvey"></Button>
+					</Toolbar>
+				</footer>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>
