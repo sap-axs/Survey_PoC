@@ -1,6 +1,9 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller", "sap/ui/model/json/JSONModel"
-], function (Controller, JSONModel) {
+	"sap/ui/core/mvc/Controller",
+	"sap/ui/model/json/JSONModel",
+	"sap/m/MessageToast",
+	"sap/m/MessageBox"
+], function (Controller, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("QuickStartApplication.controller.View1", {
@@ -30,31 +33,53 @@ sap.ui.define([
 					"ResponseText": ""
 				}, {
 					"QuestionId": "TRIALPOC001-Q3",
-					"ResponseText": "Hello World"
+					"ResponseText": ""
 				}]
 			});
 			//model for question Q0
 			this.getView().setModel(new JSONModel({
-				"A1": true,
-				"A2": true,
-				"A3": true,
-				"A4": true,
+				"A1": false,
+				"A2": false,
+				"A3": false,
+				"A4": false
 			}), "q0");
+
 			//model for question Q1
 			this.getView().setModel(new JSONModel({
 				"Response": true
 			}), "q1");
 
 			this.getView().setModel(oSurveyModel, "sm");
+
+			this._oBackendModel = this.getOwnerComponent().getModel();
+
+			// attachRequestCompleted is called in success and error case.
+			this._oBackendModel.attachRequestCompleted(function (result) {
+				var params = result.getParameters();
+				if (params && params.success) {
+					MessageToast.show(" Your survey replies were successfully uploaded.\n Thank you for your participation!");
+				} else {
+					if (params.response) {
+						MessageBox.error("Error occured when sending your survey replies.\n Please check your input or try again later.", {
+							details: params.response
+						});
+					}
+				}
+			}, this);
 		},
 
+		getBackendModel: function () {
+			return this._oBackendModel;
+		},
+
+		// build up survey payload and send
 		sendSurvey: function () {
 			var oSurveyModel = this.getView().getModel("sm");
 			var oSurveyResponse = oSurveyModel.getData();
 			oSurveyResponse.RespondedOn = new Date().toISOString().split(".")[0];
 			oSurveyResponse.Id = this.getView().byId("E1").getValue() ? this.getView().byId("E1").getValue() : this.getView().getModel(
 				"userapi").getData().email;
-			var oDataModel = this.getOwnerComponent().getModel();
+
 			var oQ1Model = this.getView().getModel("q1");
 			var Q1Answer = {
 				"QuestionId": "TRIALPOC001-Q1",
@@ -72,15 +97,10 @@ sap.ui.define([
 				}
 			}
 
+			// final sending
+			var oDataModel = this.getBackendModel();
 			var sPath = "/SurveyResponseSet";
-			oDataModel.create(sPath, oSurveyResponse, {
-				sucess: function () {
-					//console.log("success")
-				},
-				error: function () {
-					//console.log("error")
-				}
-			});
+			oDataModel.create(sPath, oSurveyResponse);
 
 		}
 

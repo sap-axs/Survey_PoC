@@ -2,10 +2,10 @@
 	xmlns="sap.m">
 	<App id="idAppControl">
 		<pages>
-			<Page title="SAP Marketing Cloud trial user feedback">
+			<Page title="SAP Marketing Cloud Trial User Feedback">
 				<content>
 					<Panel backgroundDesign="Transparent">
-						<Text text="Thank you for taking time to provide us with your feedback. We will use this information to improve the trial experience."></Text>
+						<Text class="sapUiSmallMarginTop" text="Thank you for taking time to provide us with your feedback. We will use this information to improve the trial experience."></Text>
 					</Panel>
 					<Panel>
 						<headerToolbar>
