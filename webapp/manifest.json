@@ -51,7 +51,10 @@
 			"tablet": true,
 			"phone": true
 		},
-		"supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_bluecrystal"
+		]
 	},
 	"sap.ui5": {
 		"_version": "1.1.0",
@@ -103,12 +106,21 @@
 				"controlAggregation": "pages",
 				"controlId": "idAppControl"
 			},
+			"routes": [{
+				"name": "End",
+				"pattern": "end",
+				"target": "SurveyFinished"
+			}],
 			"targets": {
 				"TargetView1": {
 					"viewType": "XML",
 					"transition": "slide",
 					"clearAggregation": true,
 					"viewName": "View1"
+				},
+				"SurveyFinished": {
+					"viewType": "XML",
+					"viewName": "SurveyFinished"
 				}
 			}
 		}

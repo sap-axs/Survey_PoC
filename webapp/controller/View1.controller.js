@@ -17,6 +17,8 @@ sap.ui.define([
 
 			var userModel = new JSONModel("/services/userapi/currentUser");
 			this.getView().setModel(userModel, "userapi");
+			
+			
 
 			var oSurveyModel = new JSONModel({
 				"SurveyId": "TRIALPOC001",
@@ -57,7 +59,8 @@ sap.ui.define([
 			this._oBackendModel.attachRequestCompleted(function (result) {
 				var params = result.getParameters();
 				if (params && params.success) {
-					MessageToast.show(" Your survey replies were successfully uploaded.\n Thank you for your participation!");
+					//MessageToast.show(" Your survey replies were successfully uploaded.\n Thank you for your participation!");
+					this.getOwnerComponent().getRouter().navTo("End");
 				} else {
 					if (params.response) {
 						MessageBox.error("Error occured when sending your survey replies.\n Please check your input or try again later.", {
